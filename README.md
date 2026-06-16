@@ -40,22 +40,20 @@ Make sure you have the following system dependencies installed:
 1. Clone the repository:
 
 ```bash
-    git clone [https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git)
-    cd YOUR_REPO_NAME
+git clone [https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git)
+cd YOUR_REPO_NAME
 ```
 
 2. Create and activate a virtual environment:
 
 ```bash
-   python -m venv venv
+python -m venv venv
 
-   # On Windows:
+# On Windows:
+venv\Scripts\activate
 
-   venv\Scripts\activate
-
-   # On macOS/Linux:
-
-   source venv/bin/activate
+ # On macOS/Linux:
+source venv/bin/activate
 ```
 
 3. Install the required dependencies:
@@ -64,7 +62,7 @@ Make sure you have the following system dependencies installed:
 pip install -r requirements.txt
 ```
 
-Quick Usage Example
+### Quick Usage Example
 
 ```bash
 from data.ocr_repository import OCRRepository
@@ -84,7 +82,8 @@ print(f"Expiry Date: {sim_data.expired_date}")
 print(f"Status: {sim_data.status_sim}")
 ```
 
-📋 Schema Structures
+### 📋 Schema Structures
+
 The service parses and yields data matching the following structured object format:
 
 ```JSON
@@ -98,5 +97,6 @@ The service parses and yields data matching the following structured object form
 }
 ```
 
-📄 License
+### 📄 License
+
 Distributed under the MIT License. See LICENSE for more information.
