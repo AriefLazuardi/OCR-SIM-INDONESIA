@@ -1,6 +1,8 @@
 # Intelligent SIM INDONESIA OCR Parser (Adaptive Driver's License Extractor)
 
-A highly robust, noise-tolerant Optical Character Recognition (OCR) extraction service specifically designed to parse and validate Indonesian Driving Licenses (SIM A, B, and C). Built with an adaptive preprocessing pipeline to handle varying image qualities, from low-contrast mobile photos to clean black-and-white scanned documents.
+A highly robust, noise-tolerant Optical Character Recognition (OCR) extraction service specifically designed to parse and validate Indonesian Driving Licenses (SIM A, BI, BII, and C).
+
+The system combines adaptive image preprocessing, OCR text extraction, contextual validation, and regex-based parsing to reliably extract driver information from various image qualities, including mobile phone captures, faded cards, and scanned documents.
 
 ---
 
@@ -8,7 +10,7 @@ A highly robust, noise-tolerant Optical Character Recognition (OCR) extraction s
 
 - **Adaptive Image Preprocessing**: Automatically calculates image contrast variance using standard deviation (`cv2.meanStdDev`). It applies **CLAHE** dynamically for low-contrast/faded images and completely bypasses it for already sharp/black-white images to prevent character pixelation.
 - **Robust Anchor-Based Name Extraction**: Successfully handles corrupted OCR anchors (e.g., `NamwNamo`, `NAMSNENO`, `NMPNAN`) and captures multi-line names below the identifier tokens.
-- **Smart Initial & Vowel Filtration**: Preserves critical single-letter initials like **"M"** (e.g., _M IRWANUDIN_) while effectively dropping garbage OCR consonant strings (e.g., _KXTPL_) by ensuring proper vowel composition.
+- **Smart Initial & Vowel Filtration**: Preserves critical single-letter initials like **"M"** (e.g., _M JOHN) while effectively dropping garbage OCR consonant strings (e.g., \_KXTPL_) by ensuring proper vowel composition.
 - **Smart Expiry Correction**: Detects and auto-replaces broken expiry date headers (like `00*06-2026`) with structured current-day fallbacks.
 - **Auto-Override SIM Classification**: Scans full-text contexts for vehicular keywords (`SEPEDA MOTOR`, `MOBIL PENUMPANG`, etc.) to automatically correct any mismatches in user-provided classification payloads.
 
@@ -18,11 +20,58 @@ A highly robust, noise-tolerant Optical Character Recognition (OCR) extraction s
 
 This system acts as a multi-layered verification engine:
 
-1. **Image Binarization & Auto-Scaling**: Constrains maximum image bounds dynamically for low latency and consistent font dimensions.
-2. **Context Engine**: Runs a dual-language (`id` + `en`) pipeline using localized dictionary weights.
-3. **Regex Tokenizer**: Runs an array of strict regular expressions matching Indonesian national card formatting guidelines.
+1. **_Image Processing_**
 
----
+- Resize normalization
+- Contrast analysis
+- CLAHE enhancement (conditional)
+- Image binarization
+
+2. **_OCR Engine_**
+   Uses EasyOCR with:
+
+```bash
+["id", "en"]
+```
+
+language models.
+
+3. **_Context Engine_**
+   Performs:
+
+- Token normalization
+- Anchor detection
+- Multi-line extraction
+- OCR noise reduction
+
+4. **\*Regex Parsing**
+   Extracts structured information:
+
+- SIM Number
+- Driver Name
+- Expiry Date
+- SIM Type
+
+5. **_Validation Layer_**
+   Validates extracted data and applies automatic corrections when possible.
+
+## 📂 Project Structure
+
+project-root/
+│
+├── data/
+│ └── ocr_repository.py
+│
+├── services/
+│ └── sim_service.py
+│
+├── models/
+│ └── sim_model.py
+│
+├── tests/
+│
+├── requirements.txt
+└── README.md
 
 ## 🚀 Getting Started
 
@@ -31,6 +80,7 @@ This system acts as a multi-layered verification engine:
 Make sure you have the following system dependencies installed:
 
 - Python 3.9+
+- pip
 - OpenCV (`opencv-python-headless`)
 - EasyOCR
 - Numpy
@@ -56,7 +106,7 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-3. Install the required dependencies:
+Install the required dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -99,4 +149,5 @@ The service parses and yields data matching the following structured object form
 
 ### 📄 License
 
-Distributed under the MIT License. See LICENSE for more information.
+Distributed under the MIT License.
+See LICENSE for more information.
