@@ -44,7 +44,7 @@ language models.
 - Multi-line extraction
 - OCR noise reduction
 
-4. **\*Regex Parsing**
+4. **_Regex Parsing_**
    Extracts structured information:
 
 - SIM Number
@@ -57,6 +57,7 @@ language models.
 
 ## 📂 Project Structure
 
+```bash
 project-root/
 │
 ├── data/
@@ -72,6 +73,7 @@ project-root/
 │
 ├── requirements.txt
 └── README.md
+```
 
 ## 🚀 Getting Started
 
